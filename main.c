@@ -77,21 +77,24 @@ void append_end(node_t *head, int value)
 
 int node_remove(node_t *head, int index)
 {
-    if (!index)
+    if (index == 1)
     {
-        head = head->next;
+        head->value = head->next->value;
+        head->next = head->next->next;
+        free(head->next);
         return 1;
     }
 
-    node_t *temporary = head;
+    node_t *temporary;
     node_t *temporary_next = head->next;
-    int i = 1;
+    int i = 2;
 
-    while (temporary_next->next != NULL)
+    while (temporary_next != NULL)
     {
         if (i == index)
         {
-            temporary->next = temporary_next;
+            temporary->next = temporary_next->next;
+            free(temporary_next);
             return 1;
         }
         temporary = temporary_next;
@@ -134,6 +137,7 @@ int main()
     // scanf("%d", &searchVal);
     // searchlist(head, searchVal);
 
+    // ========================================
     // head = create_new_node(2);
     // printlist(head);
     // printf("\n");
@@ -145,9 +149,10 @@ int main()
     // append_end(head, 3);
     // printlist(head);
 
-    // head = create_new_node(rand() % 100);
-    // for (int i = 0; i < 19; i++)
-    //     append_end(head, rand() % 10);
+    // ========================================
+    // head = create_new_node(1);
+    // for (int i = 2; i <= 20; i++)
+    //     append_end(head, i);
 
     // printlist(head);
 
@@ -157,15 +162,16 @@ int main()
     // printlist(head);
 
     // searchlist(head, 60);
-
+    // ========================================
     head = create_new_node(rand() % 100);
     for (int i = 0; i < 19; i++)
         append_end(head, rand() % 10);
 
     printlist(head);
 
-    node_remove(head, 4);
+    node_remove(head, 1) ? printf("\nRemoved\n") : printf("\nIndex not found\n");
 
+    printf("\n\n");
     printlist(head);
 
     return 0;
