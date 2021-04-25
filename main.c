@@ -75,6 +75,33 @@ void append_end(node_t *head, int value)
     temporary->next = node_new;
 }
 
+int node_remove(node_t *head, int index)
+{
+    if (!index)
+    {
+        head = head->next;
+        return 1;
+    }
+
+    node_t *temporary = head;
+    node_t *temporary_next = head->next;
+    int i = 1;
+
+    while (temporary_next->next != NULL)
+    {
+        if (i == index)
+        {
+            temporary->next = temporary_next;
+            return 1;
+        }
+        temporary = temporary_next;
+        temporary_next = temporary_next->next;
+        i++;
+    }
+
+    return 0;
+}
+
 node_t *new_list(int len)
 {
     node_t *temp;
@@ -118,18 +145,28 @@ int main()
     // append_end(head, 3);
     // printlist(head);
 
+    // head = create_new_node(rand() % 100);
+    // for (int i = 0; i < 19; i++)
+    //     append_end(head, rand() % 10);
+
+    // printlist(head);
+
+    // for (int i = 0; i < 20; i++)
+    //     head = append_start(head, rand() % 100);
+
+    // printlist(head);
+
+    // searchlist(head, 60);
+
     head = create_new_node(rand() % 100);
     for (int i = 0; i < 19; i++)
         append_end(head, rand() % 10);
 
     printlist(head);
 
-    for (int i = 0; i < 20; i++)
-        head = append_start(head, rand() % 100);
+    node_remove(head, 4);
 
     printlist(head);
-
-    searchlist(head, 60);
 
     return 0;
 }
